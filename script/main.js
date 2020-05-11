@@ -1,16 +1,16 @@
 $(document).ready(function () {
-
-    //     Descrizione:
-    // Creazione di una todo list con le seguenti funzionalità, attraverso l’uso delle API, AJAX, jQuery e Handlebars
-    // Lettura di tutti i todo
-    // Creazione nuovo todo
-    // Cancellazione todo
+    /*************************************
+     *  Descrizione:
+     *  Creazione di una todo list con le seguenti funzionalità, attraverso l’uso delle API, AJAX, jQuery e Handlebars
+     *  1 - Lettura di tutti i todo
+     *  2 - Creazione nuovo todo
+     *  3 - Cancellazione todo
+    *************************************/
 
     // Refs
     var inputTodo = $('.new-todo'); // input
     var todoBtn = $('.todo-btn'); // send todo button
     var todoContent = $('.todo-content'); // content todo
-
 
     // init Handlebars
     var source = $('#todo-template').html();
@@ -26,21 +26,32 @@ $(document).ready(function () {
     // print todo
     printTodo(apiUrl, template, todoContent);
 
-    // new todo input
+    // new todo input click
     todoBtn.click(function(){
         createTodo(apiUrl, inputTodo, template, todoContent)
     });
 
+    // new todo input enter keyup
+    inputTodo.keyup(function (e) { 
+        if(e.which == 13 || e.keycode == 13) {
+            // call function api
+            createTodo(apiUrl, inputTodo, template, todoContent)
+       }
+    });
+
     // remove todo 
     $(document).on('click', '.icon-remove', function() {
+        // remove todo function
         removeTodo ($(this), apiUrl, template, todoContent)
     });
 
-
-
+    // check todo
+    $(document).on('click', '.icon-check i', function() {
+        $(this).removeClass('far fa-circle');
+        $(this).toggleClass('fas fa-check-circle');
+        $(this).parent().parent().addClass('check');
+    });
 }); // <-- End Doc Ready
-
-
 
 /**********************************************
 * Function
@@ -65,22 +76,26 @@ function removeTodo (self, apiUrl, template, todoContent) {
 // create new todo
 function createTodo (apiUrl, input, template, todoContent) {
     // new todo
-    var newTodo = input.val().trim();
+    var newTodo = input.val().trim().toLowerCase();
 
-    // chiamata ajax
-    $.ajax({
-        url: apiUrl,
-        method: 'POST',
-        data: {
-            text: newTodo
-        },
-        success: function() {
-            printTodo(apiUrl, template, todoContent);
-        },
-        error: function() {
-            console.log('si è verificato un errore nella creazione del todo');
-        }
-    })
+    if (newTodo !== '') {
+        // chiamata ajax
+        $.ajax({
+            url: apiUrl,
+            method: 'POST',
+            data: {
+                text: newTodo
+            },
+            success: function() {
+                printTodo(apiUrl, template, todoContent);
+            },
+            error: function() {
+                console.log('si è verificato un errore nella creazione del todo');
+            }
+        })
+    } else {
+        alert('inserisci un valore')
+    }
 }
 
 // get all to do from api
@@ -104,10 +119,12 @@ function printTodo (apiUrl, template, todoContent) {
                 }
 
                 // print on html
-                var html = template(context);
+                var html = template(context).toLowerCase();
                 todoContent.append(html);
             }
-            
+
+            // reset input
+            $('.new-todo').val('');
         },
 
         error: function() {
