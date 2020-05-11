@@ -11,6 +11,7 @@ $(document).ready(function () {
     var inputTodo = $('.new-todo'); // input
     var todoBtn = $('.todo-btn'); // send todo button
     var todoContent = $('.todo-content'); // content todo
+    var iconCheck = $('.icon-check i');
 
     // init Handlebars
     var source = $('#todo-template').html();
@@ -43,12 +44,14 @@ $(document).ready(function () {
     $(document).on('click', '.icon-remove', function() {
         // remove todo function
         removeTodo ($(this), apiUrl, template, todoContent)
-    });
+    }); 
 
     // check todo
     $(document).on('click', '.icon-check i', function() {
-        var iconCheck = $('.icon-check i')
-        
+        var iconCheck = $('.icon-check i');
+
+        iconCheck = $(this);
+
         if (iconCheck.hasClass('far fa-circle')) {
             $(this).removeClass('far fa-circle');
             $(this).addClass('fas fa-check-circle');
