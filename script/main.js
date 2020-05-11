@@ -47,9 +47,17 @@ $(document).ready(function () {
 
     // check todo
     $(document).on('click', '.icon-check i', function() {
-        $(this).removeClass('far fa-circle');
-        $(this).toggleClass('fas fa-check-circle');
-        $(this).parent().parent().addClass('check');
+        var iconCheck = $('.icon-check i')
+        
+        if (iconCheck.hasClass('far fa-circle')) {
+            $(this).removeClass('far fa-circle');
+            $(this).addClass('fas fa-check-circle');
+            $(this).parent().parent().addClass('check');
+        } else if (iconCheck.hasClass('fas fa-check-circle')){
+            $(this).removeClass('fas fa-check-circle');
+            $(this).addClass('far fa-circle');
+            $(this).parent().parent().removeClass('check');
+        }
     });
 }); // <-- End Doc Ready
 
