@@ -6,17 +6,33 @@
     <title>Document</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <!-- Main CSS -->
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-
-    
+        <main>
+            <div class="container">
+                <!-- App -->
+                <div class="app">
+                    <input class="new-todo" placeholder="Inserisci nuovo Todo"  type="text">
+                    <button class="todo-btn">Invia</button>
+                </div>
+                <!-- todo content -->
+                <ul class="todo-content">
+                    
+                </ul>
+            </div>
+        </main>
 
 
     <!-- Template Handlebars -->
     <script id="todo-template" type="text/x-handlebars-template">
-        
+        <li class="todo">
+            <span> {{ todo }}</span>
+            <span class="icon-remove" data-id="{{ id }}"><i class="fas fa-trash"></i></span>
+        </li>
     </script>
 
 
